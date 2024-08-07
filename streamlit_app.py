@@ -51,7 +51,7 @@ ax.axis('off')
 animation_placeholder = st.empty()
 
 # Animation loop
-for _ in range(200):  # Run the animation for 200 frames
+for frame in range(200):  # Run the animation for 200 frames
     ax.clear()
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)

@@ -13,7 +13,7 @@ def draw_unicorn(ax, x, y):
     ax.add_patch(patches.Rectangle((x+5, y-7), 2, 7, edgecolor='black', facecolor='purple'))
     ax.add_patch(patches.Rectangle((x+23, y-7), 2, 7, edgecolor='black', facecolor='purple'))
     # Head
-    ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='black', facecolor='purple'))
+    ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='white', facecolor='purple'))
     # Horn
     ax.add_patch(patches.Polygon([[x+30, y+15], [x+35, y+12.5], [x+37.5, y+20]], edgecolor='black', facecolor='yellow'))
     # Eye

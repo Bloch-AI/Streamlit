@@ -41,9 +41,6 @@ for app_name, app_url in apps.items():
 
 st.write("")
 
-# Add footer
-st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
-
 fig, ax = plt.subplots()
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 100)
@@ -89,3 +86,6 @@ for _ in range(200):  # Run the animation for 200 frames
     animation_placeholder.image(image)
 
     time.sleep(0.1)
+
+# Add footer
+st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)

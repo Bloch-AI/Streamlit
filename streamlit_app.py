@@ -15,12 +15,12 @@ def draw_unicorn(ax, x, y):
     # Head
     ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='black', facecolor='purple'))
     # Horn
-    ax.add_patch(patches.Polygon([[x+30, y+15], [x+35, y+22], [x+32.5, y+10]], edgecolor='black', facecolor='yellow'))
+    ax.add_patch(patches.Polygon([[x+30, y+15], [x+35, y+10], [x+32.5, y+22]], edgecolor='black', facecolor='yellow'))
     # Eye
     ax.add_patch(patches.Circle((x+27, y+12), 1, edgecolor='black', facecolor='white'))
     ax.add_patch(patches.Circle((x+27, y+12), 0.5, edgecolor='black', facecolor='black'))
     # Smile
-    ax.add_patch(patches.Arc((x+28, y+8), 2, 2, angle=0, theta1=180, theta2=360, edgecolor='black'))
+    ax.add_patch(patches.Arc((x+28, y+7), 2, 2, angle=0, theta1=0, theta2=180, edgecolor='black'))
 
 # Function to draw a heart
 def draw_heart(ax, x, y, color):
@@ -61,6 +61,29 @@ ax.axis('off')
 # Initialize animation
 animation_placeholder = st.empty()
 
+# Add footer
+footer = st.container()
+footer.markdown(
+    '''
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+    }
+    </style>
+    <div class="footer">
+        <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
+    </div>
+    ''',
+    unsafe_allow_html=True
+)
+
 # Animation loop
 while True:  # Run the animation indefinitely
     ax.clear()
@@ -98,23 +121,3 @@ while True:  # Run the animation indefinitely
     animation_placeholder.image(image)
 
     time.sleep(0.1)
-
-# Add footer
-st.markdown(
-    '''
-    <div style="
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: black;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-        font-family: Arial, sans-serif;
-    ">
-        <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
-    </div>
-    ''',
-    unsafe_allow_html=True
-)

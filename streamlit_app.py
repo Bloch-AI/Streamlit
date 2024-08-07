@@ -20,7 +20,7 @@ def draw_unicorn(ax, x, y):
     ax.add_patch(patches.Circle((x+27, y+12), 1, edgecolor='black', facecolor='white'))
     ax.add_patch(patches.Circle((x+27, y+12), 0.5, edgecolor='black', facecolor='black'))
     # Smile
-    ax.add_patch(patches.Arc((x+28, y+7), 2, 2, angle=0, theta1=0, theta2=0, edgecolor='black'))
+    ax.add_patch(patches.Arc((x+28, y+7), 2, 2, angle=0, theta1=0, theta2=90, edgecolor='black'))
 
 # Function to draw a heart
 def draw_heart(ax, x, y, color):

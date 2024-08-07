@@ -2,7 +2,7 @@ import streamlit as st
 
 st.title("💻 Here's one I made earlier! 🌈")
 st.title("")
-st.title("Select one of Jamie's apps:")
+st.write("Select one of Jamie's apps:")
 
 # List of other Streamlit apps with their URLs
 apps = {

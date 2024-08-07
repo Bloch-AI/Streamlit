@@ -17,13 +17,19 @@ def draw_unicorn(ax, x, y):
     # Horn
     ax.add_patch(patches.Polygon([[x+24, y+10], [x+27, y+10], [x+25.5, y+14]], edgecolor='black', facecolor='yellow'))
 
-# Function to draw a sweetheart
-def draw_sweetheart(ax, x, y):
-    ax.add_patch(patches.Circle((x, y), 3, edgecolor='red', facecolor='pink'))
+# Function to draw a heart
+def draw_heart(ax, x, y, color):
+    # Create a heart shape using two circles and a triangle
+    ax.add_patch(patches.Circle((x - 2, y + 2), 3, edgecolor='red', facecolor=color))
+    ax.add_patch(patches.Circle((x + 2, y + 2), 3, edgecolor='red', facecolor=color))
+    ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor='red', facecolor=color))
 
 # Initialize positions
 unicorn_pos = [50, 50]
 sweethearts = []
+
+# List of colors
+colors = ['pink', 'red', 'blue', 'green', 'yellow', 'orange']
 
 # Main Streamlit app
 st.title("💻 Here's one I made earlier! 🌈")
@@ -63,7 +69,8 @@ for frame in range(200):  # Run the animation for 200 frames
 
     # Add new sweetheart
     if np.random.rand() > 0.9:
-        sweethearts.append([unicorn_pos[0] + 25, unicorn_pos[1] + 7])
+        color = np.random.choice(colors)
+        sweethearts.append([unicorn_pos[0] + 25, unicorn_pos[1] + 7, color])
 
     # Move sweethearts
     for heart in sweethearts:
@@ -71,7 +78,7 @@ for frame in range(200):  # Run the animation for 200 frames
 
     # Draw sweethearts
     for heart in sweethearts:
-        draw_sweetheart(ax, heart[0], heart[1])
+        draw_heart(ax, heart[0], heart[1], heart[2])
 
     # Remove sweethearts that are off-screen
     sweethearts = [heart for heart in sweethearts if heart[0] < 100]

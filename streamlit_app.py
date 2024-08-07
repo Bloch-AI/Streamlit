@@ -8,21 +8,26 @@ from PIL import Image
 # Function to draw a unicorn
 def draw_unicorn(ax, x, y):
     # Body
-    ax.add_patch(patches.Rectangle((x, y), 20, 10, edgecolor='black', facecolor='purple'))
+    ax.add_patch(patches.Rectangle((x, y), 30, 15, edgecolor='black', facecolor='purple'))
     # Legs
-    ax.add_patch(patches.Rectangle((x+2, y-5), 2, 5, edgecolor='black', facecolor='purple'))
-    ax.add_patch(patches.Rectangle((x+16, y-5), 2, 5, edgecolor='black', facecolor='purple'))
+    ax.add_patch(patches.Rectangle((x+5, y-7), 2, 7, edgecolor='black', facecolor='purple'))
+    ax.add_patch(patches.Rectangle((x+23, y-7), 2, 7, edgecolor='black', facecolor='purple'))
     # Head
-    ax.add_patch(patches.Rectangle((x+18, y+4), 6, 6, edgecolor='black', facecolor='purple'))
+    ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='black', facecolor='purple'))
     # Horn
-    ax.add_patch(patches.Polygon([[x+24, y+10], [x+27, y+10], [x+25.5, y+14]], edgecolor='black', facecolor='yellow'))
+    ax.add_patch(patches.Polygon([[x+35, y+15], [x+40, y+15], [x+37.5, y+22]], edgecolor='black', facecolor='yellow'))
+    # Eye
+    ax.add_patch(patches.Circle((x+32, y+12), 1, edgecolor='black', facecolor='white'))
+    ax.add_patch(patches.Circle((x+32, y+12), 0.5, edgecolor='black', facecolor='black'))
+    # Tail
+    ax.add_patch(patches.Polygon([[x-5, y+5], [x, y+5], [x-2.5, y+15]], edgecolor='black', facecolor='pink'))
 
 # Function to draw a heart
 def draw_heart(ax, x, y, color):
     # Create a heart shape using two circles and a triangle
-    ax.add_patch(patches.Circle((x - 2, y + 2), 3, edgecolor='red', facecolor=color))
-    ax.add_patch(patches.Circle((x + 2, y + 2), 3, edgecolor='red', facecolor=color))
-    ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor='red', facecolor=color))
+    ax.add_patch(patches.Circle((x - 2, y + 2), 3, edgecolor=color, facecolor=color))
+    ax.add_patch(patches.Circle((x + 2, y + 2), 3, edgecolor=color, facecolor=color))
+    ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor=color, facecolor=color))
 
 # Initialize positions
 unicorn_pos = [50, 50]
@@ -47,9 +52,9 @@ for app_name, app_url in apps.items():
 
 st.write("")
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 5))  # Make the figure larger
 ax.set_xlim(0, 100)
-ax.set_ylim(0, 100)
+ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
 ax.set_aspect('equal')
 ax.axis('off')
 
@@ -60,7 +65,7 @@ animation_placeholder = st.empty()
 for frame in range(200):  # Run the animation for 200 frames
     ax.clear()
     ax.set_xlim(0, 100)
-    ax.set_ylim(0, 100)
+    ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
     ax.set_aspect('equal')
     ax.axis('off')
 
@@ -70,7 +75,7 @@ for frame in range(200):  # Run the animation for 200 frames
     # Add new sweetheart
     if np.random.rand() > 0.9:
         color = np.random.choice(colors)
-        sweethearts.append([unicorn_pos[0] + 25, unicorn_pos[1] + 7, color])
+        sweethearts.append([unicorn_pos[0] + 35, unicorn_pos[1] + 7, color])
 
     # Move sweethearts
     for heart in sweethearts:
@@ -96,3 +101,4 @@ for frame in range(200):  # Run the animation for 200 frames
 
 # Add footer
 st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
+

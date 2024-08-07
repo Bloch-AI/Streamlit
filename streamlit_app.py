@@ -25,8 +25,8 @@ def draw_unicorn(ax, x, y):
 # Function to draw a heart
 def draw_heart(ax, x, y, color):
     # Create a heart shape using two circles and a triangle
-    ax.add_patch(patches.Circle((x - 1.5, y + 2), 3, edgecolor=color, facecolor=color))
-    ax.add_patch(patches.Circle((x + 1.5, y + 2), 3, edgecolor=color, facecolor=color))
+    ax.add_patch(patches.Circle((x - 1.6, y + 2), 3, edgecolor=color, facecolor=color))
+    ax.add_patch(patches.Circle((x + 1.6, y + 2), 3, edgecolor=color, facecolor=color))
     ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor=color, facecolor=color))
 
 # Initialize positions

@@ -41,50 +41,51 @@ for app_name, app_url in apps.items():
 
 st.write("")
 
+# Add footer
+st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
+
 fig, ax = plt.subplots()
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 100)
 ax.set_aspect('equal')
 ax.axis('off')
 
-start_animation = st.button("Start Animation")
+# Initialize animation
+animation_placeholder = st.empty()
 
-if start_animation:
-    while True:
-        ax.clear()
-        ax.set_xlim(0, 100)
-        ax.set_ylim(0, 100)
-        ax.set_aspect('equal')
-        ax.axis('off')
+# Animation loop
+for _ in range(200):  # Run the animation for 200 frames
+    ax.clear()
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.set_aspect('equal')
+    ax.axis('off')
 
-        # Draw the unicorn
-        draw_unicorn(ax, unicorn_pos[0], unicorn_pos[1])
+    # Draw the unicorn
+    draw_unicorn(ax, unicorn_pos[0], unicorn_pos[1])
 
-        # Add new sweetheart
-        if np.random.rand() > 0.9:
-            sweethearts.append([unicorn_pos[0] + 25, unicorn_pos[1] + 7])
+    # Add new sweetheart
+    if np.random.rand() > 0.9:
+        sweethearts.append([unicorn_pos[0] + 25, unicorn_pos[1] + 7])
 
-        # Move sweethearts
-        for heart in sweethearts:
-            heart[0] += 1
+    # Move sweethearts
+    for heart in sweethearts:
+        heart[0] += 1
 
-        # Draw sweethearts
-        for heart in sweethearts:
-            draw_sweetheart(ax, heart[0], heart[1])
+    # Draw sweethearts
+    for heart in sweethearts:
+        draw_sweetheart(ax, heart[0], heart[1])
 
-        # Remove sweethearts that are off-screen
-        sweethearts = [heart for heart in sweethearts if heart[0] < 100]
+    # Remove sweethearts that are off-screen
+    sweethearts = [heart for heart in sweethearts if heart[0] < 100]
 
-        # Render the figure to a PIL image
-        fig.canvas.draw()
-        image = np.frombuffer(fig.canvas.tostring_rgb(), dtype='uint8')
-        image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
-        image = Image.fromarray(image)
+    # Render the figure to a PIL image
+    fig.canvas.draw()
+    image = np.frombuffer(fig.canvas.tostring_rgb(), dtype='uint8')
+    image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+    image = Image.fromarray(image)
 
-        # Display the image in Streamlit
-        st.image(image)
+    # Display the image in Streamlit
+    animation_placeholder.image(image)
 
-        time.sleep(0.1)
-
-# Add footer
-st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
+    time.sleep(0.1)

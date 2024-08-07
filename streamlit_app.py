@@ -30,7 +30,7 @@ def draw_heart(ax, x, y, color):
     ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor=color, facecolor=color))
 
 # Initialize positions
-unicorn_pos = [50, 50]
+unicorn_pos = [10, 30]  # Adjusted the unicorn's y position
 sweethearts = []
 
 # List of colors
@@ -100,5 +100,4 @@ for frame in range(200):  # Run the animation for 200 frames
     time.sleep(0.1)
 
 # Add footer
-st.markdown('<div class="footer"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
-
+st.markdown('<div class="footer" style="position: fixed; bottom: 0; width: 100%; text-align: center;"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)

@@ -15,12 +15,12 @@ def draw_unicorn(ax, x, y):
     # Head
     ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='black', facecolor='purple'))
     # Horn
-    ax.add_patch(patches.Polygon([[x+35, y+15], [x+40, y+15], [x+37.5, y+22]], edgecolor='black', facecolor='yellow'))
+    ax.add_patch(patches.Polygon([[x+30, y+15], [x+35, y+20], [x+32.5, y+22]], edgecolor='black', facecolor='yellow'))
     # Eye
     ax.add_patch(patches.Circle((x+32, y+12), 1, edgecolor='black', facecolor='white'))
     ax.add_patch(patches.Circle((x+32, y+12), 0.5, edgecolor='black', facecolor='black'))
     # Tail
-    ax.add_patch(patches.Polygon([[x-5, y+5], [x, y+5], [x-2.5, y+15]], edgecolor='black', facecolor='pink'))
+    ax.add_patch(patches.Polygon([[x-5, y+5], [x, y+5], [x-2.5, y-2]], edgecolor='black', facecolor='pink'))
 
 # Function to draw a heart
 def draw_heart(ax, x, y, color):
@@ -30,7 +30,7 @@ def draw_heart(ax, x, y, color):
     ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor=color, facecolor=color))
 
 # Initialize positions
-unicorn_pos = [10, 30]  # Adjusted the unicorn's y position
+unicorn_pos = [10, 20]  # Adjusted the unicorn's y position down
 sweethearts = []
 
 # List of colors
@@ -62,7 +62,7 @@ ax.axis('off')
 animation_placeholder = st.empty()
 
 # Animation loop
-for frame in range(200):  # Run the animation for 200 frames
+while True:  # Run the animation indefinitely
     ax.clear()
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
@@ -99,5 +99,5 @@ for frame in range(200):  # Run the animation for 200 frames
 
     time.sleep(0.1)
 
-# Add footer
-st.markdown('<div class="footer" style="position: fixed; bottom: 0; width: 100%; text-align: center;"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)
+    # Add footer
+    st.markdown('<div class="footer" style="position: fixed; bottom: 0; width: 100%; text-align: center; color: black;"><p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: black;">www.bloch.ai</a></p></div>', unsafe_allow_html=True)

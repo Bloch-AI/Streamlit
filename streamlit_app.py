@@ -15,14 +15,12 @@ def draw_unicorn(ax, x, y):
     # Head
     ax.add_patch(patches.Rectangle((x+25, y+5), 10, 10, edgecolor='black', facecolor='purple'))
     # Horn
-    ax.add_patch(patches.Polygon([[x+30, y+10], [x+32.5, y+22], [x+35, y+10]], edgecolor='black', facecolor='yellow'))
+    ax.add_patch(patches.Polygon([[x+30, y+15], [x+35, y+22], [x+32.5, y+10]], edgecolor='black', facecolor='yellow'))
     # Eye
-    ax.add_patch(patches.Circle((x+32, y+12), 1, edgecolor='black', facecolor='white'))
-    ax.add_patch(patches.Circle((x+32, y+12), 0.5, edgecolor='black', facecolor='black'))
-    # Tail
-    ax.add_patch(patches.Polygon([[x, y+5], [x-5, y], [x-5, y+10]], edgecolor='black', facecolor='pink'))
+    ax.add_patch(patches.Circle((x+27, y+12), 1, edgecolor='black', facecolor='white'))
+    ax.add_patch(patches.Circle((x+27, y+12), 0.5, edgecolor='black', facecolor='black'))
     # Smile
-    ax.add_patch(patches.Arc((x+28, y+8), 2, 2, angle=0, theta1=0, theta2=180, edgecolor='black'))
+    ax.add_patch(patches.Arc((x+28, y+8), 2, 2, angle=0, theta1=180, theta2=360, edgecolor='black'))
 
 # Function to draw a heart
 def draw_heart(ax, x, y, color):
@@ -54,7 +52,7 @@ for app_name, app_url in apps.items():
 
 st.write("")
 
-fig, ax = plt.subplots(figsize=(10, 5))  # Make the figure larger
+fig, ax = plt.subplots(figsize=(12, 6))  # Make the figure larger
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
 ax.set_aspect('equal')
@@ -101,21 +99,22 @@ while True:  # Run the animation indefinitely
 
     time.sleep(0.1)
 
-    # Add footer
-    st.markdown(
-        '''
-        <div style="
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: black;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-family: Arial, sans-serif;
-        ">
-            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
-        </div>
-        ''',
-        unsafe_allow_html=True
-    )
+# Add footer
+st.markdown(
+    '''
+    <div style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        font-family: Arial, sans-serif;
+    ">
+        <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
+    </div>
+    ''',
+    unsafe_allow_html=True
+)

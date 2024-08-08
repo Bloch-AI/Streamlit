@@ -3,10 +3,28 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 from PIL import Image
 
-# Function to draw a unicorn
+# Constants
+CANVAS_WIDTH = 100
+CANVAS_HEIGHT = 50
+UNICORN_START_X = 10
+UNICORN_START_Y = 20
+HEART_SPAWN_CHANCE = 0.1
+ANIMATION_INTERVAL = 0.1
+
+# Colors
+COLORS = ['pink', 'red', 'blue', 'green', 'yellow', 'orange']
+
 def draw_unicorn(ax, x, y):
+    """
+    Draw a unicorn on the given axes at the specified position.
+    
+    :param ax: Matplotlib axes
+    :param x: x-coordinate of the unicorn's position
+    :param y: y-coordinate of the unicorn's position
+    """
     # Body
     ax.add_patch(patches.Rectangle((x, y), 30, 15, edgecolor='black', facecolor='white'))
     # Legs
@@ -22,103 +40,132 @@ def draw_unicorn(ax, x, y):
     # Smile
     ax.add_patch(patches.Arc((x+28, y+7), 2, 2, angle=180, theta1=0, theta2=180, edgecolor='black'))
 
-# Function to draw a heart
 def draw_heart(ax, x, y, color):
-    # Create a heart shape using two circles and a triangle
+    """
+    Draw a heart on the given axes at the specified position.
+    
+    :param ax: Matplotlib axes
+    :param x: x-coordinate of the heart's position
+    :param y: y-coordinate of the heart's position
+    :param color: Color of the heart
+    """
     ax.add_patch(patches.Circle((x - 1.6, y + 2), 3, edgecolor=color, facecolor=color))
     ax.add_patch(patches.Circle((x + 1.6, y + 2), 3, edgecolor=color, facecolor=color))
     ax.add_patch(patches.Polygon([[x - 5, y + 2], [x + 5, y + 2], [x, y - 5]], edgecolor=color, facecolor=color))
 
-# Initialize positions
-unicorn_pos = [10, 20]  # Adjusted the unicorn's y position down
-sweethearts = []
+@st.cache_resource
+def setup_figure():
+    """
+    Set up and return the Matplotlib figure and axes.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.set_xlim(0, CANVAS_WIDTH)
+    ax.set_ylim(0, CANVAS_HEIGHT)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    return fig, ax
 
-# List of colors
-colors = ['pink', 'red', 'blue', 'green', 'yellow', 'orange']
-
-# Main Streamlit app
-st.title("💻 Here's one I made earlier! 🌈")
-st.write("")
-st.write("Select one of Jamie's apps:")
-
-# List of other Streamlit apps with their URLs
-apps = {
-    "Machine Learning": "https://blochai-machinelearning.streamlit.app/",
-    "Process Mining": "https://blochai-processmining.streamlit.app/",
-    "Large Language Model": "https://blochai-largelanguagemodel.streamlit.app/",
-}
-
-for app_name, app_url in apps.items():
-    st.markdown(f"[{app_name}]({app_url})")
-
-st.write("")
-
-fig, ax = plt.subplots(figsize=(12, 6))  # Make the figure larger
-ax.set_xlim(0, 100)
-ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
-ax.set_aspect('equal')
-ax.axis('off')
-
-# Initialize animation
-animation_placeholder = st.empty()
-
-# Add footer
-footer = st.container()
-footer.markdown(
-    '''
-    <style>
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: black;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-    }
-    </style>
-    <div class="footer">
-        <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
-    </div>
-    ''',
-    unsafe_allow_html=True
-)
-
-# Animation loop
-while True:  # Run the animation indefinitely
+def update_animation(fig, ax, unicorn_pos, sweethearts):
+    """
+    Update the animation frame.
+    
+    :param fig: Matplotlib figure
+    :param ax: Matplotlib axes
+    :param unicorn_pos: Current position of the unicorn
+    :param sweethearts: List of sweetheart positions and colors
+    :return: Updated sweethearts list and PIL Image of the current frame
+    """
     ax.clear()
-    ax.set_xlim(0, 100)
-    ax.set_ylim(0, 50)  # Adjust the y-limit to fit the new aspect ratio
+    ax.set_xlim(0, CANVAS_WIDTH)
+    ax.set_ylim(0, CANVAS_HEIGHT)
     ax.set_aspect('equal')
     ax.axis('off')
 
-    # Draw the unicorn
     draw_unicorn(ax, unicorn_pos[0], unicorn_pos[1])
 
-    # Add new sweetheart
-    if np.random.rand() > 0.9:
-        color = np.random.choice(colors)
+    if np.random.rand() > 1 - HEART_SPAWN_CHANCE:
+        color = np.random.choice(COLORS)
         sweethearts.append([unicorn_pos[0] + 35, unicorn_pos[1] + 7, color])
 
-    # Move sweethearts
     for heart in sweethearts:
         heart[0] += 1
-
-    # Draw sweethearts
-    for heart in sweethearts:
         draw_heart(ax, heart[0], heart[1], heart[2])
 
-    # Remove sweethearts that are off-screen
-    sweethearts = [heart for heart in sweethearts if heart[0] < 100]
+    sweethearts = [heart for heart in sweethearts if heart[0] < CANVAS_WIDTH]
 
-    # Render the figure to a PIL image
-    fig.canvas.draw()
-    image = np.frombuffer(fig.canvas.tostring_rgb(), dtype='uint8')
-    image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
-    image = Image.fromarray(image)
+    canvas = FigureCanvasAgg(fig)
+    canvas.draw()
+    image = Image.frombytes('RGB', canvas.get_width_height(), canvas.tostring_rgb())
+    
+    return sweethearts, image
 
-    # Display the image in Streamlit
-    animation_placeholder.image(image)
+def main():
+    st.title("💻 Here's one I made earlier! 🌈")
+    st.write("")
+    st.write("Select one of Jamie's apps:")
 
-    time.sleep(0.1)
+    apps = {
+        "Machine Learning": "https://blochai-machinelearning.streamlit.app/",
+        "Process Mining": "https://blochai-processmining.streamlit.app/",
+        "Large Language Model": "https://blochai-largelanguagemodel.streamlit.app/",
+    }
+    for app_name, app_url in apps.items():
+        st.markdown(f"[{app_name}]({app_url})")
+    st.write("")
+
+    fig, ax = setup_figure()
+
+    if 'unicorn_pos' not in st.session_state:
+        st.session_state.unicorn_pos = [UNICORN_START_X, UNICORN_START_Y]
+    if 'sweethearts' not in st.session_state:
+        st.session_state.sweethearts = []
+
+    animation_placeholder = st.empty()
+
+    start_button = st.button("Start/Stop Animation")
+
+    if 'animation_running' not in st.session_state:
+        st.session_state.animation_running = False
+
+    if start_button:
+        st.session_state.animation_running = not st.session_state.animation_running
+
+    while st.session_state.animation_running:
+        try:
+            st.session_state.sweethearts, image = update_animation(
+                fig, ax, st.session_state.unicorn_pos, st.session_state.sweethearts
+            )
+            animation_placeholder.image(image)
+            time.sleep(ANIMATION_INTERVAL)
+        except Exception as e:
+            st.error(f"An error occurred: {str(e)}")
+            st.session_state.animation_running = False
+            break
+
+    add_footer()
+
+def add_footer():
+    footer = st.container()
+    footer.markdown(
+        '''
+        <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        </style>
+        <div class="footer">
+            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
+
+if __name__ == "__main__":
+    main()

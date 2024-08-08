@@ -122,15 +122,7 @@ def main():
 
     animation_placeholder = st.empty()
 
-    start_button = st.button("Start/Stop Animation")
-
-    if 'animation_running' not in st.session_state:
-        st.session_state.animation_running = False
-
-    if start_button:
-        st.session_state.animation_running = not st.session_state.animation_running
-
-    while st.session_state.animation_running:
+    while True:
         try:
             st.session_state.sweethearts, image = update_animation(
                 fig, ax, st.session_state.unicorn_pos, st.session_state.sweethearts
@@ -139,14 +131,12 @@ def main():
             time.sleep(ANIMATION_INTERVAL)
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
-            st.session_state.animation_running = False
             break
 
     add_footer()
 
 def add_footer():
-    footer = st.container()
-    footer.markdown(
+    st.markdown(
         '''
         <style>
         .footer {
@@ -154,14 +144,22 @@ def add_footer():
             left: 0;
             bottom: 0;
             width: 100%;
-            background-color: black;
-            color: white;
+            background-color: black !important;
+            color: white !important;
             text-align: center;
             padding: 10px 0;
         }
+        .footer p {
+            color: white !important;
+            margin: 0;
+        }
+        .footer a {
+            color: white !important;
+            text-decoration: underline;
+        }
         </style>
         <div class="footer">
-            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai" style="color: white;">www.bloch.ai</a></p>
+            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai">www.bloch.ai</a></p>
         </div>
         ''',
         unsafe_allow_html=True

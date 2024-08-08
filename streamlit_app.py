@@ -95,11 +95,46 @@ def update_animation(fig, ax, unicorn_pos, sweethearts):
 
     canvas = FigureCanvasAgg(fig)
     canvas.draw()
-    image = Image.frombytes('RGB', canvas.get_width_height(), canvas.tostring_rgb())
+    image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8')
+    image = image.reshape(canvas.get_width_height()[::-1] + (3,))
+    image = Image.fromarray(image)
     
     return sweethearts, image
 
+def add_footer():
+    st.markdown(
+        '''
+        <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black !important;
+            color: white !important;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        .footer p {
+            color: white !important;
+            margin: 0;
+        }
+        .footer a {
+            color: white !important;
+            text-decoration: underline;
+        }
+        </style>
+        <div class="footer">
+            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai">www.bloch.ai</a></p>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
+
 def main():
+    st.set_page_config(layout="wide")
+    
     st.title("💻 Here's one I made earlier! 🌈")
     st.write("")
     st.write("Select one of Jamie's apps:")
@@ -122,6 +157,8 @@ def main():
 
     animation_placeholder = st.empty()
 
+    add_footer()
+
     while True:
         try:
             st.session_state.sweethearts, image = update_animation(
@@ -129,41 +166,11 @@ def main():
             )
             animation_placeholder.image(image)
             time.sleep(ANIMATION_INTERVAL)
+        except st.runtime.ScriptRunnerException:
+            break
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
             break
-
-    add_footer()
-
-def add_footer():
-    st.markdown(
-        '''
-        <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: black !important;
-            color: white !important;
-            text-align: center;
-            padding: 10px 0;
-        }
-        .footer p {
-            color: white !important;
-            margin: 0;
-        }
-        .footer a {
-            color: white !important;
-            text-decoration: underline;
-        }
-        </style>
-        <div class="footer">
-            <p>© 2024 Bloch AI LTD - All Rights Reserved. <a href="https://www.bloch.ai">www.bloch.ai</a></p>
-        </div>
-        ''',
-        unsafe_allow_html=True
-    )
 
 if __name__ == "__main__":
     main()

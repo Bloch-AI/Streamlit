@@ -39,7 +39,7 @@ st.write("Select one of Jamie's apps:")
 apps = {
     "Machine Learning": "https://blochai-machinelearning.streamlit.app/",
     "Process Mining": "https://blochai-processmining.streamlit.app/",
-    "Large Language Model": "https://blochai-largelanguagemodel.streamlit.app/",
+    #"Large Language Model": "https://blochai-largelanguagemodel.streamlit.app/",
 }
 for app_name, app_url in apps.items():
     st.markdown(f"[{app_name}]({app_url})")
